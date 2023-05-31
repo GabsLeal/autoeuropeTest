@@ -1,16 +1,16 @@
 package com.autoEuropeTest.autoEurope.model;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Component
 public class Car {
 
     private Long id;
-
     private String name;
 
 

@@ -1,17 +1,15 @@
 package com.autoEuropeTest.autoEurope.dto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Component
 public class CarDTO {
 
     private Long id;
-
     private String name;
-
-
 }

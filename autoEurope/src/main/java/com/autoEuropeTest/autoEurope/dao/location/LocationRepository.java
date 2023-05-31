@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface LocationRepository  extends JpaRepository<LocationDAO, Long> {
+public interface LocationRepository  extends JpaRepository<LocationDAO, Long> {
 }
