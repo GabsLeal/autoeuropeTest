@@ -26,14 +26,14 @@ public class LocationControllerImpl implements LocationController {
     @Override
     public ResponseEntity<LocationResponse> getLocationById(@PathVariable("id") Long id) {
         try {
-            ResponseEntity<LocationResponse> responseEntity = locationService.getLocationById(id);
+            var responseEntity = locationService.getLocationById(id);
             if (responseEntity.getBody() != null) {
                 return responseEntity;
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            LocationResponse errorResponse = new LocationResponse(null, "An error occurred while retrieving the location.");
+            var errorResponse = new LocationResponse(null, "An error occurred while retrieving the location.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
@@ -42,14 +42,14 @@ public class LocationControllerImpl implements LocationController {
     @Override
     public ResponseEntity<LocationResponse> createLocation(@RequestBody Location location) {
         try {
-            ResponseEntity<LocationResponse> responseEntity = locationService.createLocation(location);
+            var responseEntity = locationService.createLocation(location);
             if (responseEntity.getBody() != null) {
                 return responseEntity;
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         } catch (Exception e) {
-            LocationResponse errorResponse = new LocationResponse(null, "An error occurred while creating the location.");
+            var errorResponse = new LocationResponse(null, "An error occurred while creating the location.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
@@ -58,14 +58,14 @@ public class LocationControllerImpl implements LocationController {
     @Override
     public ResponseEntity<LocationResponse> updateLocation(@PathVariable("id") Long id, @RequestBody Location location) {
         try {
-            ResponseEntity<LocationResponse> responseEntity = locationService.updateLocation(id, location);
+            var responseEntity = locationService.updateLocation(id, location);
             if (responseEntity.getBody() != null) {
                 return responseEntity;
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            LocationResponse errorResponse = new LocationResponse(null, "An error occurred while updating the location.");
+            var errorResponse = new LocationResponse(null, "An error occurred while updating the location.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
@@ -74,14 +74,14 @@ public class LocationControllerImpl implements LocationController {
     @Override
     public ResponseEntity<LocationResponse> deleteLocation(@PathVariable("id") Long id) {
         try {
-            ResponseEntity<LocationResponse> responseEntity = locationService.deleteLocation(id);
+            var responseEntity = locationService.deleteLocation(id);
             if (responseEntity.getBody() != null && responseEntity.getBody().getLocationResponse() != null) {
                 return responseEntity;
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            LocationResponse errorResponse = new LocationResponse(null, "An error occurred while deleting the location.");
+            var errorResponse = new LocationResponse(null, "An error occurred while deleting the location.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
@@ -90,15 +90,15 @@ public class LocationControllerImpl implements LocationController {
     @Override
     public ResponseEntity<LocationResponse> getAllLocations() {
         try {
-            ResponseEntity<LocationResponse> responseEntity = locationService.getAllLocations();
+            var responseEntity = locationService.getAllLocations();
             if (responseEntity.getBody() != null) {
-                List<Location> locationList = responseEntity.getBody().getLocationResponse();
-                LocationResponse locationResponse = new LocationResponse(locationList, "Success");
+                var locationList = responseEntity.getBody().getLocationResponse();
+                var locationResponse = new LocationResponse(locationList, "Success");
 
                 return ResponseEntity.ok(locationResponse);
             }
         } catch (Exception e) {
-            LocationResponse errorResponse = new LocationResponse(null, "An error occurred while retrieving the locations.");
+            var errorResponse = new LocationResponse(null, "An error occurred while retrieving the locations.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
 

@@ -10,25 +10,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/car")
+@RequiredArgsConstructor
 public class CarControllerImpl implements CarController {
 
     private final CarService carService;
+
     @GetMapping("/{id}")
     @Override
     public ResponseEntity<CarResponse> getCarById(@PathVariable("id") Long id) {
         try {
-            ResponseEntity<CarResponse> car = carService.getCarById(id);
-            if (car.getBody() != null) {
-                return car;
+            var response = carService.getCarById(id);
+            if (response.getBody() != null && response.getBody().getCar() != null) {
+                return ResponseEntity.ok(response.getBody());
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            CarResponse errorResponse = new CarResponse(null, "An error occurred while retrieving the car.");
+            var errorResponse = new CarResponse(null, "An error occurred while retrieving the car.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
@@ -37,9 +39,9 @@ public class CarControllerImpl implements CarController {
     @Override
     public ResponseEntity<CarResponse> createCar(@RequestBody Car car) {
         try {
-            ResponseEntity<CarResponse> createdCar = carService.createCar(car);
-            if (createdCar.getBody() != null) {
-                return createdCar;
+            var response = carService.createCar(car);
+            if (response.getBody() != null && response.getBody().getCar() != null) {
+                return ResponseEntity.ok(response.getBody());
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
@@ -49,19 +51,18 @@ public class CarControllerImpl implements CarController {
         }
     }
 
-
     @PutMapping("/{id}")
     @Override
     public ResponseEntity<CarResponse> updateCar(@PathVariable("id") Long id, @RequestBody Car car) {
         try {
-            ResponseEntity<CarResponse> updatedCar = carService.updateCar(id, car);
-            if (updatedCar.getBody() != null) {
-                return updatedCar;
+            var response = carService.updateCar(id, car);
+            if (response.getBody() != null && response.getBody().getCar() != null) {
+                return ResponseEntity.ok(response.getBody());
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            CarResponse errorResponse = new CarResponse(null, "An error occurred while updating the car.");
+            var errorResponse = new CarResponse(null, "An error occurred while updating the car.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
@@ -70,35 +71,35 @@ public class CarControllerImpl implements CarController {
     @Override
     public ResponseEntity<CarResponse> deleteCar(@PathVariable("id") Long id) {
         try {
-            ResponseEntity<CarResponse> deleted = carService.deleteCar(id);
-            if (deleted.getBody() != null && deleted.getBody().getCar() != null) {
-                return deleted;
+            var response = carService.deleteCar(id);
+            if (response.getBody() != null && response.getBody().getCar() != null) {
+                return response;
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            CarResponse errorResponse = new CarResponse(null, "An error occurred while deleting the car.");
+            var errorResponse = new CarResponse(null, "An error occurred while deleting the car.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
-
 
     @GetMapping("/")
     @Override
     public ResponseEntity<CarResponse> getAllCars() {
         try {
-            ResponseEntity<CarResponse> cars = carService.getAllCars();
-
-            if (cars.getBody() != null) {
-                List<Car> carList = cars.getBody().getCar();
+            var response = carService.getAllCars();
+            if (response.getBody() != null && response.getBody().getCar() != null) {
+                var carList = response.getBody().getCar();
                 CarResponse carResponse = new CarResponse(carList, "Success");
                 return ResponseEntity.ok(carResponse);
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            CarResponse carResponse = new CarResponse(null, "Error occurred: " + e.getMessage());
+            var carResponse = new CarResponse(null, "Error occurred: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(carResponse);
         }
     }
+
+
 }
